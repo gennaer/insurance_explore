@@ -6,14 +6,12 @@ output: rmarkdown::github_document
 LendingClub is a peer-to-peer lending service that publishes data of all granted and rejected loans from 2007 to Sep. 2018. This includes information about why someone was requesting a loan. I looked at how the number of rejected loan requests changed over time depending on what the loan was for. 
 
 ```{r}
+library(data.table)
 library(ggplot2)
+rejectAppsByMonthPurpose <- fread('rejectAppsByMonthPurpose.csv',header=TRUE,data.table = FALSE)
+rejectAppsByMonthPurpose$date <- as.Date(rejectAppsByMonthPurpose$Group.1,"%m/%d/%y")
 
-rejectAppsByMonthPurpose <- aggregate(reject_data$purpose,list(reject_data$dateMY,reject_data$purpose),length)
-rejectAppsByMonthPurpose <- rejectAppsByMonthPurpose[order(as.Date(rejectAppsByMonthPurpose$Group.1, format="%Y-%m-%d")),]
-
-rejectAppsByMonthPurpose$count1000 <- rejectAppsByMonthPurpose$x/1000
-
-p <- ggplot(data=rejectAppsByMonthPurpose, aes(x=Group.1,y=count1000,colour=Group.2))
+p <- ggplot(data=rejectAppsByMonthPurpose, aes(x=date,y=count1000,colour=Group.2))
 p + geom_line() + labs(y = 'Num. Rejected Loans (Thousands)', x='Date', color='Loan Purpose') + 
   theme(axis.text=element_text(size=12))
 ```
