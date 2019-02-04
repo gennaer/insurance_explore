@@ -1,6 +1,6 @@
 ---
 title: "LendingClub Rejected Loans"
-output: html_notebook
+output: rmarkdown::github_document
 ---
 
 LendingClub is a peer-to-peer lending service that publishes data of all granted and rejected loans from 2007 to Sep. 2018. This includes information about why someone was requesting a loan. I looked at how the number of rejected loan requests changed over time depending on what the loan was for. 
